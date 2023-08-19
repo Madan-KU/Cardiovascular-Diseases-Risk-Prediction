@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+
+<!-- <comment>
+    - This Webpage is part of the Cardiovascular Diseases Risk Predictor Tool.
+</comment><html> -->
+<head>
+<meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/><link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" rel="stylesheet"/>
+
+
+<title>{% block title %}{% endblock%}</title><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet"/>
+<meta content="Heart Health Predictor Tool for Cardiovascular Diseases" name="description"/><meta content="Heart, Health, Predictor, Cardiovascular, Disease, Tool" name="keywords"/></head>
+<body style="background-color: #f8f9fa;"><div class="progress" style="height: 5px; position: fixed; top: 0; left: 0; right: 0; z-index: 1000;"><div aria-valuemax="100" aria-valuemin="0" aria-valuenow="0" class="progress-bar" role="progressbar" style="background-color: #d1d1d1; width: 0%;"></div></div>
+<nav class="navbar navbar-expand-lg bg-body-tertiary mt-3" style="margin-top: 10px; background-color: #343a40;">
+<div class="container-fluid">
+
+<img alt="Logo" height="30" src="{{ url_for('static', filename='images/cardiovascular_prediction_tool_logo.png') }}"/><a class="navbar-brand" href="#">&emsp;Home</a>
+<button aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-bs-target="#navbarNav" data-bs-toggle="collapse" type="button">
+<span class="navbar-toggler-icon"></span>
+</button>
+<div class="collapse navbar-collapse" id="navbarNav">
+<ul class="navbar-nav">
+<!-- <li class="nav-item">
+<a aria-current="page" class="nav-link active" href="#" style="color: white;">[1]</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" href="#" style="color: white;">[2]</a>
+</li> -->
+<li class="nav-item"><a class="nav-link" href="#" style="color: white;">About</a></li><li class="nav-item"><a class="nav-link" href="#" style="color: white;">Contact</a></li><li class="nav-item"><a class="nav-link" href="#" style="color: white;">Help</a></li></ul>
+</div>
+</div>
+</nav>
+<div class="container mt-4">
+<div class="alert alert-success mt-4" role="alert" style="display: none;">Form submitted successfully!</div><form action="/submit" method="post">
+<!-- Box 1 -->
+<div class="card shadow mb-4">
+<div class="card-body" style="padding: 1.5rem;">
+<h5 class="card-title">Health Information</h5>
+<div class="form-group">
+<label for="Checkup"><i class="fas fa-stethoscope fa-fw mr-2"></i>Checkup:</label>
+<select class="form-control" id="Checkup" name="Checkup">
+<option value="Checkup_Never">Never</option>
+<option value="Checkup_Within the past year">Within the past year</option>
+<option value="Checkup_Within the past 2 years">Within the past 2 years</option>
+<option value="Checkup_Within the past 5 years">Within the past 5 years</option>
+<option value="Checkup_5 or more years ago">5 or more years ago</option>
+</select>
+</div><div class="form-group">
+<label for="Depression"><i class="fas fa-frown fa-fw mr-2"></i>Depression:</label>
+<select class="form-control" id="Depression" name="Depression">
+<option value="Depression_No">No</option> <!-- Change -->
+<option value="Depression_Yes">Yes</option>
+</select>
+</div><div class="form-group">
+<label for="General_Health"><i class="fas fa-heartbeat fa-fw mr-2"></i>General Health:</label>
+<select class="form-control" id="General_Health" name="General_Health" placeholder="Select your general health condition">
+<option value="General_Health_Poor">Poor</option>
+<option value="General_Health_Fair">Fair</option>
+<option value="General_Health_Good">Good</option>
+<option value="General_Health_Very Good">Very Good</option>
+<option value="General_Health_Excellent">Excellent</option>
+</select>
+</div></div>
+</div>
+<!-- Box 2 -->
+<div class="card shadow mb-4">
+<div class="card-body" style="padding: 1.5rem;">
+<h5 class="card-title">General Information</h5>
+<div class="form-group">
+<label for="Age_Category">Age_Category:</label>
+<select class="form-control" id="Age_Category" name="Age_Category">
+<option value="Age_Category_18-24">18-24</option>
+<option value="Age_Category_25-29">25-29</option>
+<option value="Age_Category_30-34">30-34</option>
+<option value="Age_Category_35-39">35-39</option>
+<option value="Age_Category_40-44">40-44</option>
+<option value="Age_Category_45-49">45-49</option>
+<option value="Age_Category_50-54">50-54</option>
+<option value="Age_Category_55-59">55-59</option>
+<option value="Age_Category_60-64">60-64</option>
+<option value="Age_Category_65-69">65-69</option>
+<option value="Age_Category_70-74">70-74</option>
+<option value="Age_Category_75-79">75-79</option>
+<option value="Age_Category_80+">80+</option>
+</select>
+</div><div class="form-group">
+<label for="BMI"><i class="fas fa-balance-scale fa-fw mr-2"></i>BMI:</label>
+<input class="form-range" id="BMI" max="100" min="0" name="BMI" placeholder="Adjust to set your BMI" type="range" value="20"/>
+<span id="bmi-value">0</span>
+</div><div class="form-group">
+<label for="Height_(cm)"><i class="fas fa-ruler-vertical fa-fw mr-2"></i>Height_(cm):</label>
+<input class="form-range" id="Height_(cm)" max="210" min="0" name="Height_(cm)" placeholder="Adjust to set your height in cm" type="range" value="Adjust to set your height in cm"/>
+<span id="height-value">170 cm</span>
+</div><div class="form-group">
+<label for="Weight_(kg)"><i class="fas fa-weight fa-fw mr-2"></i>Weight_(kg):</label>
+<input class="form-range" id="Weight_(kg)" max="210" min="0" name="Weight_(kg)" placeholder="Adjust to set your weight in kg" type="range" value="Adjust to set your weight in kg"/>
+<span id="weight-value">70 kg</span>
+</div><div class="form-group">
+<label for="Sex">Sex:</label>
+<select class="form-control" id="Sex" name="Sex">
+<option value="Sex_Female">Female</option>
+<option value="Sex_Male">Male</option>
+</select>
+</div>
+</div></div>
+<!-- Box 3 -->
+<div class="card shadow mb-4">
+<div class="card-body" style="padding: 1.5rem;">
+<h5 class="card-title">Food</h5>
+<div class="form-group">
+<label for="FriedPotato_Consumption"><i class="fas fa-drumstick-bite fa-fw mr-2"></i>Fried Potato Consumption:</label>
+<input class="form-range" id="FriedPotato_Consumption" max="128" min="0" name="FriedPotato_Consumption" placeholder="Adjust to set your fried potato consumption" type="range" value="Adjust to set your fried potato consumption"/>
+<span id="fried-potato-value">0</span>
+</div><div class="form-group">
+<label for="Fruit_Consumption"><i class="fas fa-apple-alt fa-fw mr-2"></i>Fruit Consumption:</label>
+<input class="form-range" id="Fruit_Consumption" max="120" min="0" name="Fruit_Consumption" placeholder="Adjust to set your fruit consumption" type="range" value="Adjust to set your fruit consumption"/>
+<span id="fruit-consumption-value">0</span>
+</div><div class="form-group">
+<label for="Green_Vegetables_Consumption"><i class="fas fa-leaf fa-fw mr-2"></i>Green Vegetables Consumption:</label>
+<input class="form-range" id="Green_Vegetables_Consumption" max="128" min="0" name="Green_Vegetables_Consumption" placeholder="Adjust to set your green vegetable consumption" type="range" value="Adjust to set your green vegetable consumption"/>
+<span id="green-vegetables-value">0</span>
+</div></div>
+</div>
+<!-- Box 4 -->
+<div class="card shadow mb-4">
+<div class="card-body" style="padding: 1.5rem;">
+<h5 class="card-title">Lifestyle</h5>
+<div class="form-group">
+<label for="Alcohol_Consumption"><i class="fas fa-wine-glass fa-fw mr-2"></i>Alcohol Consumption:</label>
+<input class="Alcohol_Consumption" id="Alcohol_Consumption" max="30" min="0" name="Alcohol_Consumption" placeholder="Adjust to set your alcohol consumption" type="range" value="Adjust to set your alcohol consumption"/>
+<span id="alcohol-consumption-value">0</span>
+</div><div class="form-group">
+<label for="Exercise">Exercise:</label>
+<select class="form-control" id="Exercise" name="Exercise">
+<option value="Exercise_No">No</option>
+<option value="Exercise_Yes">Yes</option>
+</select>
+</div><div class="form-group">
+<label for="Smoking_History">Smoking_History:</label>
+<select class="form-control" id="Smoking_History" name="Smoking_History">
+<option value="Smoking_History_No">No</option>
+<option value="Smoking_History_Yes">Yes</option>
+</select>
+</div></div>
+</div>
+<!-- Box 5 -->
+<div class="card shadow mb-4">
+<div class="card-body" style="padding: 1.5rem;">
+<h5 class="card-title">Medical History</h5>
+<div class="form-group">
+<label for="Arthritis">Arthritis:</label>
+<select class="form-control" id="Arthritis" name="Arthritis">
+<option value="Arthritis_No">No</option>
+<option value="Arthritis_Yes">Yes</option>
+</select>
+</div><div class="form-group">
+<label for="Diabetes">Diabetes:</label>
+<select class="form-control" id="Diabetes" name="Diabetes">
+<option value='Diabetes_Yes'>Yes</option>
+<option value="Diabetes_Yes, but female told only during pregnancy">Yes, but female told only during pregnancy</option>
+<option value="Diabetes_No">No</option>
+<option value="Diabetes_No, pre-diabetes or borderline diabetes">No, pre-diabetes or borderline diabetes</option>
+</select>
+
+<!-- Add more boxes for other fields as needed -->
+</div><div class="form-group">
+</select>
+</div><div class="form-group">
+<label for="Other_Cancer">Other_Cancer:</label>
+<select class="form-control" id="Other_Cancer" name="Other_Cancer">
+<option value="Other_Cancer_No">No</option>
+<option value="Other_Cancer_Yes">Yes</option>
+</select>
+</div><div class="form-group">
+<label for="Skin_Cancer">Skin_Cancer:</label>
+<select class="form-control" id="Skin_Cancer" name="Skin_Cancer">
+<option value="Skin_Cancer_No">No</option>
+<option value="Skin_Cancer_Yes">Yes</option>
+</select>
+</div>
+<!-- Submit Button -->
+<div class="text-center">
+<input class="btn btn-primary" type="submit" value="Check"/>
+
+<!-- Feedback Modal -->
+<div aria-hidden="true" aria-labelledby="feedbackModalLabel" class="modal fade" id="feedbackModal" role="dialog" tabindex="-1">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<div class="modal-header">
+<h5 class="modal-title" id="feedbackModalLabel">Provide Feedback</h5>
+<button aria-label="Close" class="close" data-dismiss="modal" type="button">
+<span aria-hidden="true">×</span>
+</button>
+</div>
+<div class="modal-body">
+<form>
+<div class="form-group">
+<label class="col-form-label" for="feedback-text">Feedback:</label>
+<textarea class="form-control" id="feedback-text"></textarea>
+</div>
+</form>
+</div>
+<div class="modal-footer">
+<button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
+<button class="btn btn-primary" type="button">Submit</button>
+</div>
+</div>
+</div>
+</div>
+<!-- <div class="mt-4">
+    {% if prediction %}
+    <h3 class="text-center">Prediction Result: {{ prediction }}</h3>
+    {% endif %}
+</div> -->    
+    <br>
+    <br>
+
+        <img src="{{ result_image }}" alt="{{ prediction }}" style="width: 60%; height: auto;">
+
+
+    </body>
+    </html>
+    
+<script crossorigin="anonymous" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script crossorigin="anonymous" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script crossorigin="anonymous" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script>
+
+    
+
+        // Function to update slider values in real-time
+        function updateSliderValue(sliderId, valueId) {
+        const slider = document.getElementById(sliderId);
+        const valueElement = document.getElementById(valueId);
+
+        // Initial update
+        valueElement.textContent = slider.value;
+
+        // Update value as slider is moved
+        slider.addEventListener('input', function () {
+            valueElement.textContent = slider.value;
+        });
+    }
+        // Call the function for each slider
+        updateSliderValue('Height_(cm)', 'height-value');
+        updateSliderValue('Weight_(kg)', 'weight-value');
+        updateSliderValue('Fruit_Consumption', 'fruit-consumption-value'); 
+        updateSliderValue('Green_Vegetables_Consumption', 'green-vegetables-value'); 
+        updateSliderValue('FriedPotato_Consumption', 'fried-potato-value');  
+        updateSliderValue('Alcohol_Consumption', 'alcohol-consumption-value');
+        updateSliderValue('BMI', 'bmi-value');
+        
+    </script>
+<footer class="mt-5 pt-5 pb-5 footer bg-dark"><div class="container text-center text-white">Cardiovascular Diseases Risk Predictor<br><br><a class="text-white" data-target="#feedbackModal" data-toggle="modal" href="#">Provide Feedback</a></div><ul class="list-inline mb-0"><li class="list-inline-item mr-3">
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputs = document.querySelectorAll('input, select');
+            const progressBar = document.querySelector('.progress-bar');
+        
+            function updateProgressBar() {
+                const totalFields = inputs.length;
+                let filledFields = 0;
+        
+                inputs.forEach(input => {
+                    if (input.type === 'checkbox' || input.type === 'radio') {
+                        if (input.checked) filledFields++;
+                    } else if (input.value.trim() !== '') {
+                        filledFields++;
+                    }
+                });
+        
+                const progressPercentage = (filledFields / totalFields) * 100;
+                progressBar.style.width = progressPercentage + '%';
+                progressBar.setAttribute('aria-valuenow', progressPercentage);
+            }
+        
+            inputs.forEach(input => {
+                input.addEventListener('input', updateProgressBar);
+                input.addEventListener('change', updateProgressBar);
+            });
+        
+            // Initial update
+            updateProgressBar();
+        });
+        </script>
+        
+
